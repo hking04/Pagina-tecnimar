@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller Tecnimar - Sistema de Gestión de Reparaciones</title>
+    <style>
+        :root {
+            --primary-color: #0d47a1;
+            --secondary-color: #1976d2;
+            --accent-color: #00bcd4;
+            --dark-gray: #333333;
+            --light-gray: #f4f6f9;
+            --white: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .badge-container {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 1.8rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid var(--primary-color);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card ul {
+            list-style-type: none;
+        }
+
+        .card ul li {
+            padding: 6px 0;
+            border-bottom: 1px solid var(--light-gray);
+            font-size: 0.95rem;
+        }
+
+        .card ul li:last-child {
+            border-bottom: none;
+        }
+
+        .card ul li::before {
+            content: "✓ ";
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+
+        .status-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .status-pill {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .recibido { background-color: #e3f2fd; color: #0d47a1; }
+        .en-reparacion { background-color: #fff3e0; color: #e65100; }
+        .reparado { background-color: #e8f5e9; color: #1b5e20; }
+        .entregado { background-color: #ede7f6; color: #4a148c; }
+
+
+        .info-box {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .info-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            background-color: var(--dark-gray);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem 1rem;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+        .formulario-card {
+    background: var(--white);
+    padding: 1.8rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-top: 4px solid var(--accent-color);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.formulario-card h2 {
+    color: var(--primary-color);
+    margin-bottom: 0.8rem;
+}
+
+.formulario-card p {
+    margin-bottom: 1.2rem;
+}
+
+.boton-formulario {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: var(--white);
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.boton-formulario:hover {
+    background-color: var(--primary-color);
+}
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Taller Tecnimar</h1>
+        <p>Sistema de Gestión y Control de Reparaciones</p>
+        <div class="badge-container">
+            <span class="badge">SENA - Girardot, Cundinamarca</span>
+            <span class="badge">Tecnología ADSO (2026)</span>
+            <span class="badge">Autores: Juan Camilo Muñoz M. & Jhon Estiven Ortiz M.</span>
+        </div>
+    </header>
+
+    <div class="container">
+
+
+        <div class="info-box">
+            <h3>Acerca del Proyecto</h3>
+            <p><strong>Tecnimar</strong> es un sistema de información desarrollado para modernizar y optimizar la gestión del taller de diagnóstico, mantenimiento y reparación de ventiladores y equipos de refrigeración. Sustituye los registros manuales físicos por una plataforma digital centralizada que garantiza rapidez, seguridad e integridad de la información.</p>
+        </div>
+
+
+        <div class="grid">
+            <div class="card">
+                <h2>🎯 Misión</h2>
+                <p>Brindar servicios técnicos de diagnóstico, mantenimiento preventivo y correctivo de ventiladores y equipos de refrigeración, ofreciendo soluciones eficientes, seguras y de calidad con atención transparente y oportuna.</p>
+            </div>
+            <div class="card">
+                <h2>🚀 Visión</h2>
+                <p>Consolidarse como un emprendimiento referente en Girardot y Cundinamarca por su confiabilidad, incorporando nuevas tecnologías y ampliando progresivamente su portafolio de servicios técnicos.</p>
+            </div>
+            <div class="card">
+                <h2>⭐ Valores Corporativos</h2>
+                <ul>
+                    <li>Responsabilidad y honestidad</li>
+                    <li>Compromiso y respeto</li>
+                    <li>Innovación tecnológica constante</li>
+                    <li>Transparencia en diagnósticos y costos</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <h2 style="margin-bottom: 1.5rem; color: var(--primary-color); border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">
+            ⚙️ Módulos y Funcionalidades del Sistema
+        </h2>
+
+        <div class="grid">
+            <div class="card">
+                <h2>👥 Gestión de Clientes</h2>
+                <ul>
+                    <li>Registro, modificación y consulta de clientes</li>
+                    <li>Historial de reparaciones por cliente</li>
+                    <li>Registro de pagos y comprobantes</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>🛠️ Control de Reparaciones</h2>
+                <ul>
+                    <li>Registro de marca, modelo y número de serie</li>
+                    <li>Reporte de fallas y diagnóstico técnico</li>
+                    <li>Asignación de tareas a técnicos</li>
+                    <li>Generación de órdenes de servicio</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>📦 Inventario de Repuestos</h2>
+                <ul>
+                    <li>Control de entradas y salidas de componentes</li>
+                    <li>Alertas automáticas por stock mínimo</li>
+                    <li>Cálculo de costos de repuestos y mano de obra</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>🔒 Seguridad y Accesos</h2>
+                <ul>
+                    <li>Autenticación segura con inicio/cierre de sesión</li>
+                    <li>Roles diferenciados (Administrador y Técnico)</li>
+                    <li>Resguardos de copias de seguridad</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>🔄 Trazabilidad de las Reparaciones</h3>
+            <p>El sistema permite hacer seguimiento en tiempo real al estado físico y técnico del equipo recibido:</p>
+            <div class="status-container">
+                <span class="status-pill recibido">1. Recibido</span>
+                <span class="status-pill en-reparacion">2. En Reparación</span>
+                <span class="status-pill reparado">3. Reparado</span>
+                <span class="status-pill entregado">4. Entregado</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="formulario-card">
+    <h2>📝 Registro de Reparaciones</h2>
+    <p>
+        Para registrar un nuevo cliente, equipo o reparación,
+        acceda al formulario del sistema.
+    </p>
+
+    <a href="https://hking04.github.io/Formulario-de-Reparaci-n-de-ventiladores/" 
+    class="boton-formulario" 
+    target="_blank">
+        Ir al Formulario
+    </a>
+</div>
+
+    <footer>
+        <p>&copy; 2026 Taller Tecnimar | SENA Centro de Industria y de la Construcción - Girardot</p>
+        <p>Proyecto desarrollado bajo la metodología ADSO</p>
+    </footer>
+
+</body>
+</html>
